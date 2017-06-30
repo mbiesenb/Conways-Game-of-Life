@@ -13,11 +13,18 @@ import javax.swing.JFrame;
  * @author Marvin
  */
 public class FieldWindow extends JFrame{
-    private Manager manager;
+    private final Manager manager;
     public FieldWindow(Manager manager) {
         this.manager = manager;
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-        this.setPreferredSize(new Dimension(500, 500));
+        this.setSize(new Dimension(500, 500));
+        initPanel();
+    }
+
+    private void initPanel() {
+        FieldPanel fieldpanel = new FieldPanel(manager);
+        this.add(fieldpanel);
     }
  
 }
