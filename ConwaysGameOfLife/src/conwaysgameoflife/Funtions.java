@@ -10,10 +10,12 @@ package conwaysgameoflife;
  * @author Marvin
  */
 public interface Funtions {
-    void getLeft(int index);
-    void getRight(int index);
-    void getUpper(int index);
-    void getUnder(int index);
+    Cell getLeft(int index);
+    Cell getRight(int index);
+    Cell getUpper(int index);
+    Cell getUnder(int index);
+    int countNeighbours(int index);
+    void changeState(int index);
     /**
      * 
      * @param frequency 

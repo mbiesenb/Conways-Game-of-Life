@@ -6,6 +6,7 @@
 package conwaysgameoflife;
 
 import LL.LL;
+import javax.swing.Timer;
 
 /**
  *
@@ -14,8 +15,10 @@ import LL.LL;
 public class Manager implements Funtions {
 
     private final LL<Cell> cellMatrix;
-    private static final int XFIELDS = 300;
-    private static final int YFIELDS = 300;
+    private static final int XFIELDS = 100;
+    private static final int YFIELDS = 100;
+
+    private Timer runTimer;
 
     public static int getXFIELDS() {
         return XFIELDS;
@@ -34,27 +37,41 @@ public class Manager implements Funtions {
         initCells();
         setRandomFields(3);
         initWindow();
+        initMouseListener();
+        initTimer();
 
     }
 
     @Override
-    public void getLeft(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Cell getLeft(int index) {
+        if (index % Manager.getXFIELDS() == 0) {
+            return null;
+        }
+        return cellMatrix.get(index - 1);
     }
 
     @Override
-    public void getRight(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Cell getRight(int index) {
+        if ((index + 1) % Manager.getYFIELDS() == 0) {
+            return null;
+        }
+        return cellMatrix.get(index + 1);
     }
 
     @Override
-    public void getUpper(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Cell getUpper(int index) {
+        if (index - Manager.getXFIELDS() < 0) {
+            return null;
+        }
+        return cellMatrix.get(index - Manager.getXFIELDS());
     }
 
     @Override
-    public void getUnder(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Cell getUnder(int index) {
+        if (index - Manager.getXFIELDS() > (Manager.getXFIELDS() * Manager.getYFIELDS())) {
+            return null;
+        }
+        return cellMatrix.get(index + Manager.getXFIELDS());
     }
 
     @Override
@@ -79,6 +96,42 @@ public class Manager implements Funtions {
 
     private void initWindow() {
         FieldWindow fieldWindow = new FieldWindow(this);
+    }
+
+    private void initTimer() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void initMouseListener() {
+
+    }
+
+    @Override
+    public void changeState(int index) {
+        cellMatrix.get(index).changeState();
+    }
+
+    @Override
+    public int countNeighbours(int index) {
+        Cell cupper = getUpper(index);
+        Cell cunder = getUnder(index);
+        Cell cleft = getLeft(index);
+        Cell cright = getRight(index);
+
+        int couter = 0;
+        if (cupper != null) {
+            couter += (cupper.isSet) ? 1 : 0;
+        }
+        if (cunder != null) {
+            couter += (cunder.isSet) ? 1 : 0;
+        }
+        if (cleft != null) {
+            couter += (cleft.isSet) ? 1 : 0;
+        }
+        if (cright != null) {
+            couter += (cright.isSet) ? 1 : 0;
+        }
+        return couter;
     }
 
 }

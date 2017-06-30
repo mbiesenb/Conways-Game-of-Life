@@ -19,5 +19,8 @@ public class Cell {
     public Cell(){
         
     }
+    public void changeState(){
+        this.isSet = !isSet;
+    }
     
 }
