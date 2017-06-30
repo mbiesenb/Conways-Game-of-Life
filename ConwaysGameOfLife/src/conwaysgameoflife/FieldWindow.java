@@ -5,14 +5,19 @@
  */
 package conwaysgameoflife;
 
+import java.awt.Dimension;
+import javax.swing.JFrame;
+
 /**
  *
  * @author Marvin
  */
-public class Field {
-    private final Manager manager;
-    public Field(Manager manager){
+public class FieldWindow extends JFrame{
+    private Manager manager;
+    public FieldWindow(Manager manager) {
         this.manager = manager;
+        this.setVisible(true);
+        this.setPreferredSize(new Dimension(500, 500));
     }
-    
+ 
 }

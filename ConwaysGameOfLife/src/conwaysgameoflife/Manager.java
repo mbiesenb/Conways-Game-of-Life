@@ -11,12 +11,24 @@ import LL.LL;
  */
 public class Manager implements Funtions{
     private final LL <Cell> cellMatrix;
+    private static final int XFIELDS = 100;
 
+    public static int getXFIELDS() {
+        return XFIELDS;
+    }
+
+    public static int getYFIELDS() {
+        return YFIELDS;
+    }
+    private static final int YFIELDS = 100;
+    
     public LL<Cell> getCellMatrix() {
         return cellMatrix;
     }
     public Manager() {
         this.cellMatrix = new LL<>();
+        initCells();
+        initWindow();
         
     }
 
@@ -38,6 +50,19 @@ public class Manager implements Funtions{
     @Override
     public void getUnder(int index) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void initCells() {
+       this.cellMatrix.clear();
+       int numOfCells = XFIELDS * YFIELDS;
+       for(int i = 0; i < numOfCells; i++){
+           Cell cell = new Cell();
+           this.cellMatrix.add(cell);
+       }
+    }
+
+    private void initWindow() {
+       FieldWindow fieldWindow = new FieldWindow(this);
     }
     
 }

@@ -10,6 +10,12 @@ package conwaysgameoflife;
  * @author Marvin
  */
 public class Cell {
+    private final boolean isSet = false;
+    /**
+     * A Cell is a specific small Field Square which has the state of <br>
+     * isSet == true --> white<br>
+     * isSet == false --> black
+     */
     public Cell(){
         
     }
