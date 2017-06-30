@@ -25,6 +25,7 @@ public class FieldWindow extends JFrame{
     private void initPanel() {
         FieldPanel fieldpanel = new FieldPanel(manager);
         this.add(fieldpanel);
+        fieldpanel.repaint();
     }
  
 }

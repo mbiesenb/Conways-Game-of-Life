@@ -25,23 +25,16 @@ public class FieldPanel extends JPanel{
         g.setColor(Color.white);
         int xcounter = 0;
         int ycounter = 0;
-        int indexcounter = 0;
-        double cellWidth = WIDTH/manager.getCellMatrix().size();
-        double cellHeight = HEIGHT/manager.getCellMatrix().size();
-       // manager.getCellMatrix().size();
+        double cellWidth = Double.valueOf(getWidth())/Manager.getXFIELDS();
+        double cellHeight = Double.valueOf(getHeight())/Manager.getYFIELDS();
         for(Cell cell: manager.getCellMatrix()){
-            if(indexcounter == Manager.getXFIELDS()){
+            if(xcounter == Manager.getXFIELDS()){
                 ycounter++;
                 xcounter = 0;
             }
+            g.setColor((cell.isSet)?Color.white:Color.black);
             g.fillRect((int)(xcounter * cellWidth), (int)(ycounter * cellHeight),(int) cellWidth, (int)cellHeight);
-            
-            
-            
-            
-            
-            
-            indexcounter++;
+            xcounter++;
         }
     }
     
