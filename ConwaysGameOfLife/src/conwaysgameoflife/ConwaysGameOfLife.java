@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package conwaysgameoflife;
-
 /**
  *
  * @author Marvin
@@ -14,8 +13,10 @@ public class ConwaysGameOfLife {
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String[] args) {
         // TODO code application logic here
+        Manager manager = new Manager();
     }
     
 }
