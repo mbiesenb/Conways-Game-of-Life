@@ -27,7 +27,7 @@ public class FieldWindow extends JFrame {
         this.manager = manager;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-        this.setSize(new Dimension(500, 500));
+        this.setSize(new Dimension(1000, 500));
         initPanel();
         initListener();
     }

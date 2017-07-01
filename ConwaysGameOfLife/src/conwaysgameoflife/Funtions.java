@@ -10,14 +10,6 @@ package conwaysgameoflife;
  * @author Marvin
  */
 public interface Funtions {
-    Cell getLeft(Cell cCell);
-    Cell getRight(Cell cCell);
-    Cell getUpper(Cell cCell);
-    Cell getUnder(Cell cCell);
-    Cell getUpL(Cell cCell);
-    Cell getUpR(Cell cCell);
-    Cell getUnL(Cell cCell);
-    Cell getUnR(Cell cCell);
     int countNeighbours(Cell cell, int index);
     /**
      * 

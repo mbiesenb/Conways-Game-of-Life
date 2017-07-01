@@ -20,8 +20,8 @@ import javax.swing.Timer;
 public class Manager implements Funtions {
 
     private LL<Cell> cellMatrix;
-    private static final int XFIELDS = 50;
-    private static final int YFIELDS = 50;
+    private static final int XFIELDS = 200;
+    private static final int YFIELDS = 100;
     private int ssCounter = 5;
     private FieldWindow fieldWindow;
     private Timer runTimer;
@@ -41,7 +41,7 @@ public class Manager implements Funtions {
     public Manager() {
         this.cellMatrix = new LL<>();
         initCells();
-        setRandomFields(8);
+        setRandomFields(3);
         initWindow();
         initMouseListener();
         System.out.println("kommt an 5000");
@@ -121,7 +121,7 @@ public class Manager implements Funtions {
     }
 
     private void initTimer() {
-        runTimer = new Timer(300, new ActionListener() {
+        runTimer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 turn();
@@ -196,10 +196,10 @@ public class Manager implements Funtions {
         for (Cell cell : this.cellMatrix) {
             int countNeighbour = countNeighbours(cell, index);
             boolean newState = getCellStateWithRules(cell, index);
-            tempMatrix.add(newState);
+            tempMatrix.add2(newState);
             index++;
         }
-        tempMatrix.add(false);
+        tempMatrix.add2(false);
 
         Iterator<Boolean> it = tempMatrix.iterator();
         for (Cell cell : this.cellMatrix) {
@@ -216,45 +216,5 @@ public class Manager implements Funtions {
             runTimer.stop();
         }
         ssCounter++;
-    }
-
-    @Override
-    public Cell getLeft(Cell cCell) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Cell getRight(Cell cCell) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Cell getUpper(Cell cCell) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Cell getUnder(Cell cCell) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Cell getUpL(Cell cCell) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Cell getUpR(Cell cCell) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Cell getUnL(Cell cCell) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Cell getUnR(Cell cCell) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
