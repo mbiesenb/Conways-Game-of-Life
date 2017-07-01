@@ -196,10 +196,10 @@ public class Manager implements Funtions {
         for (Cell cell : this.cellMatrix) {
             int countNeighbour = countNeighbours(cell, index);
             boolean newState = getCellStateWithRules(cell, index);
-            tempMatrix.add2(newState);
+            tempMatrix.add(newState);
             index++;
         }
-        tempMatrix.add2(false);
+        tempMatrix.add(false);
 
         Iterator<Boolean> it = tempMatrix.iterator();
         for (Cell cell : this.cellMatrix) {
