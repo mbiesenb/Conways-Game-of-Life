@@ -6,6 +6,11 @@
 package conwaysgameoflife;
 
 import LL.LL;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Iterator;
 import javax.swing.Timer;
 
 /**
@@ -14,10 +19,11 @@ import javax.swing.Timer;
  */
 public class Manager implements Funtions {
 
-    private final LL<Cell> cellMatrix;
-    private static final int XFIELDS = 100;
-    private static final int YFIELDS = 100;
-
+    private LL<Cell> cellMatrix;
+    private static final int XFIELDS = 50;
+    private static final int YFIELDS = 50;
+    private int ssCounter = 5;
+    private FieldWindow fieldWindow;
     private Timer runTimer;
 
     public static int getXFIELDS() {
@@ -35,45 +41,13 @@ public class Manager implements Funtions {
     public Manager() {
         this.cellMatrix = new LL<>();
         initCells();
-        setRandomFields(3);
+        setRandomFields(8);
         initWindow();
         initMouseListener();
+        System.out.println("kommt an 5000");
         initTimer();
 
     }
-
-    @Override
-    public Cell getLeft(int index) {
-        if (index % Manager.getXFIELDS() == 0) {
-            return null;
-        }
-        return cellMatrix.get(index - 1);
-    }
-
-    @Override
-    public Cell getRight(int index) {
-        if ((index + 1) % Manager.getYFIELDS() == 0) {
-            return null;
-        }
-        return cellMatrix.get(index + 1);
-    }
-
-    @Override
-    public Cell getUpper(int index) {
-        if (index - Manager.getXFIELDS() < 0) {
-            return null;
-        }
-        return cellMatrix.get(index - Manager.getXFIELDS());
-    }
-
-    @Override
-    public Cell getUnder(int index) {
-        if (index - Manager.getXFIELDS() > (Manager.getXFIELDS() * Manager.getYFIELDS())) {
-            return null;
-        }
-        return cellMatrix.get(index + Manager.getXFIELDS());
-    }
-
     @Override
     public void setRandomFields(int frequency) {
         for (Cell cell : this.cellMatrix) {
@@ -88,50 +62,199 @@ public class Manager implements Funtions {
     private void initCells() {
         this.cellMatrix.clear();
         int numOfCells = XFIELDS * YFIELDS;
+
         for (int i = 0; i < numOfCells; i++) {
             Cell cell = new Cell();
             this.cellMatrix.add(cell);
         }
+        int indexCounter = 0;
+        for (Cell cell : cellMatrix) {
+            if (indexCounter % Manager.XFIELDS != 0) {
+                cell.left = cellMatrix.get(indexCounter - 1);
+            } else {
+                cell.left = null;
+            }
+            if ((indexCounter + 1) % Manager.XFIELDS != 0) {
+                cell.right = cellMatrix.get(indexCounter + 1);
+            } else {
+                cell.right = null;
+            }
+            if (indexCounter - Manager.getXFIELDS() >= 0) {
+                cell.up = cellMatrix.get(indexCounter - Manager.getXFIELDS());
+            } else {
+                cell.up = null;
+            }
+            if (indexCounter + Manager.getXFIELDS() <= (Manager.getXFIELDS() * Manager.getYFIELDS()) - 1) {
+                cell.down = cellMatrix.get(indexCounter + Manager.getXFIELDS());
+            } else {
+                cell.down = null;
+            }
+            if (indexCounter % Manager.XFIELDS != 0 && indexCounter - Manager.XFIELDS - 1 > 0) {
+                cell.upleft = cellMatrix.get(indexCounter - Manager.XFIELDS - 1);
+            } else {
+                cell.upleft = null;
+            }
+            if ((indexCounter % Manager.XFIELDS + 1) != 0 && indexCounter - Manager.XFIELDS + 1 > 0) {
+                cell.upright = cellMatrix.get(indexCounter - Manager.XFIELDS + 1);
+            } else {
+                cell.upright = null;
+            }
+            if ((indexCounter % Manager.XFIELDS) != 0 && indexCounter + (Manager.XFIELDS - 1) <= (Manager.getXFIELDS() * Manager.getYFIELDS()) - 1) {
+                cell.downleft = cellMatrix.get(indexCounter +  Manager.XFIELDS -1 );
+            } else {
+                cell.downleft = null;
+            }
+            if ((indexCounter % Manager.XFIELDS + 1) != 0 && indexCounter + (Manager.XFIELDS +1) <= (Manager.getXFIELDS() * Manager.getYFIELDS()) - 1) {
+                cell.downright = cellMatrix.get(indexCounter +  Manager.XFIELDS + 1);
+            } else {
+                cell.downright = null;
+            }
+            //cell.up = cellMatrix.get(indexCounter - Manager.XFIELDS);
+            //cell.down = cellMatrix.get(indexCounter + Manager.XFIELDS);
+            indexCounter++;
+
+        }
     }
 
     private void initWindow() {
-        FieldWindow fieldWindow = new FieldWindow(this);
+        fieldWindow = new FieldWindow(this);
     }
 
     private void initTimer() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        runTimer = new Timer(300, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                turn();
+            }
+        });
     }
 
     private void initMouseListener() {
-
     }
 
     @Override
     public void changeState(int index) {
         cellMatrix.get(index).changeState();
+        //System.out.println("Anzahl der Nachtbar: " + countNeighbours(index));
     }
 
     @Override
-    public int countNeighbours(int index) {
-        Cell cupper = getUpper(index);
-        Cell cunder = getUnder(index);
-        Cell cleft = getLeft(index);
-        Cell cright = getRight(index);
-
-        int couter = 0;
-        if (cupper != null) {
-            couter += (cupper.isSet) ? 1 : 0;
+    public int countNeighbours(Cell cell, int index) {
+        int counter = 0;
+        if (cell.up != null && cell.up.isSet) {
+            counter++;
         }
-        if (cunder != null) {
-            couter += (cunder.isSet) ? 1 : 0;
+        if (cell.down != null && cell.down.isSet) {
+            counter++;
         }
-        if (cleft != null) {
-            couter += (cleft.isSet) ? 1 : 0;
+        if (cell.left != null && cell.left.isSet) {
+            counter++;
         }
-        if (cright != null) {
-            couter += (cright.isSet) ? 1 : 0;
+        if (cell.right != null && cell.right.isSet) {
+            counter++;
         }
-        return couter;
+        if (cell.upleft != null && cell.upleft.isSet) {
+            counter++;
+        }
+        if (cell.upright != null && cell.upright.isSet) {
+            counter++;
+        }
+        if (cell.downleft != null && cell.downleft.isSet) {
+            counter++;
+        }
+        if (cell.downright != null && cell.downright.isSet) {
+            counter++;
+        }
+        return counter;
     }
 
+    @Override
+    public boolean getCellStateWithRules(Cell currentCell, int index) {
+        int count = countNeighbours(currentCell, index);
+        if (currentCell.isSet) {
+            if (count < 2) {
+                return false;
+            }
+            if (count == 2 || count == 3) {
+                return true;
+            }
+            if (count > 3) {
+                return false;
+            }
+        } else {
+            if (count == 3) {
+                return true;
+            }
+        }
+        return false;
+    }
+    @Override
+    public void turn() {
+        //System.err.println("-----------------"+cellMatrix.size());
+        LL<Boolean> tempMatrix = new LL<>();
+        int index = 0;
+        for (Cell cell : this.cellMatrix) {
+            int countNeighbour = countNeighbours(cell, index);
+            boolean newState = getCellStateWithRules(cell, index);
+            tempMatrix.add(newState);
+            index++;
+        }
+        tempMatrix.add(false);
+
+        Iterator<Boolean> it = tempMatrix.iterator();
+        for (Cell cell : this.cellMatrix) {
+            cell.isSet = it.next();
+        }
+        fieldWindow.getFieldpanel().update();
+
+    }
+
+    public void ssTimer() {
+        if (ssCounter % 2 != 0) {
+            runTimer.start();
+        } else {
+            runTimer.stop();
+        }
+        ssCounter++;
+    }
+
+    @Override
+    public Cell getLeft(Cell cCell) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Cell getRight(Cell cCell) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Cell getUpper(Cell cCell) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Cell getUnder(Cell cCell) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Cell getUpL(Cell cCell) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Cell getUpR(Cell cCell) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Cell getUnL(Cell cCell) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Cell getUnR(Cell cCell) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -10,11 +10,39 @@ package conwaysgameoflife;
  * @author Marvin
  */
 public interface Funtions {
-    Cell getLeft(int index);
-    Cell getRight(int index);
-    Cell getUpper(int index);
-    Cell getUnder(int index);
-    int countNeighbours(int index);
+    Cell getLeft(Cell cCell);
+    Cell getRight(Cell cCell);
+    Cell getUpper(Cell cCell);
+    Cell getUnder(Cell cCell);
+    Cell getUpL(Cell cCell);
+    Cell getUpR(Cell cCell);
+    Cell getUnL(Cell cCell);
+    Cell getUnR(Cell cCell);
+    int countNeighbours(Cell cell, int index);
+    /**
+     * 
+     * @param currentCell - Current Cell
+     * @param index - Index of Current Cell
+     * Rules:<br>
+     * <br>
+     * n = count Neighbours<br><br>
+     * <u>Current Cell is set</u><br>
+     * n &lt; 2 --> dead<br>
+     * n = 2 or n = 3 --> alive<br>
+     * n > 3 --> dead <br><br>
+     * <u>Current Cell is not set</u><br>
+     * n == 3 --> alive<br>
+     * else --> dead
+     * @return 
+     */
+    boolean getCellStateWithRules(Cell currentCell, int index);
+    /**
+     * 
+     * @param index 
+     * changes the State of an Cell<br>
+     * set to unset<br>
+     * unset to set <br>
+     */
     void changeState(int index);
     /**
      * 
@@ -25,4 +53,9 @@ public interface Funtions {
      * 10 --> every cell is setted
      */
     void setRandomFields(int frequency);
+    
+   /**
+    * 
+    */
+    void turn();
 }

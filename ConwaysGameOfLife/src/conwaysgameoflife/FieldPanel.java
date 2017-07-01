@@ -9,6 +9,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.NoSuchElementException;
@@ -25,7 +28,7 @@ public class FieldPanel extends JPanel {
     public FieldPanel(Manager manager) {
         this.manager = manager;
         this.setBackground(Color.black);
-        initMouseListener();
+        initListener();
     }
 
     @Override
@@ -47,17 +50,24 @@ public class FieldPanel extends JPanel {
         }
     }
 
-    private void initMouseListener() {
+    public void update() {
+        this.repaint();
+    }
+
+    private void initListener() {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 Point p = e.getPoint();
                 int clickedIndex = getIndexFromCoords(e.getPoint());
-                if(clickedIndex == -1) throw new NoSuchElementException();
+                if (clickedIndex == -1) {
+                    throw new NoSuchElementException();
+                }
                 manager.changeState(clickedIndex);
                 repaint();
             }
         });
+        
     }
 
     private int getIndexFromCoords(Point point) {
@@ -65,13 +75,13 @@ public class FieldPanel extends JPanel {
         int ycounter = 0;
         double cellWidth = Double.valueOf(getWidth()) / Manager.getXFIELDS();
         double cellHeight = Double.valueOf(getHeight()) / Manager.getYFIELDS();
-        for(int i = 0; i < manager.getCellMatrix().size(); i++){
+        for (int i = 0; i < manager.getCellMatrix().size(); i++) {
             if (xcounter == Manager.getXFIELDS()) {
                 ycounter++;
                 xcounter = 0;
             }
-            Rectangle rectangle = new Rectangle((int)(xcounter * cellWidth) , (int)(ycounter * cellHeight), (int)cellWidth, (int)cellHeight);
-            if(rectangle.contains(point)){
+            Rectangle rectangle = new Rectangle((int) (xcounter * cellWidth), (int) (ycounter * cellHeight), (int) cellWidth, (int) cellHeight);
+            if (rectangle.contains(point)) {
                 return (ycounter * Manager.getXFIELDS() + xcounter);
             }
             xcounter++;

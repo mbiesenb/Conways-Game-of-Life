@@ -16,8 +16,24 @@ public class Cell {
      * isSet == true --> white<br>
      * isSet == false --> black
      */
+    public Cell left;
+    public Cell right;
+    public Cell up;
+    public Cell down;
+    public Cell upleft;
+    public Cell upright;
+    public Cell downleft;
+    public Cell downright;
+    
     public Cell(){
         
+    }
+    public Cell(Cell left, Cell right){
+        this.left = left;
+        this.right = right;
+    }
+    public Cell(boolean state){
+        this.isSet = state;
     }
     public void changeState(){
         this.isSet = !isSet;
